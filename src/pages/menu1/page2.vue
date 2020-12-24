@@ -27,13 +27,29 @@
             class="q-mt-sm"
             v-for="(item, index) in listObj.formlist"
             :key="index"
+            :disable="item.type === 'bought'"
             v-model="item.value"
             @focus="inputFocus(index)"
+            @blur="inputBlur()"
           >
           </q-input>
         </q-form>
       </q-card-section>
     </q-card>
+    <q-dialog v-model="tip.show">
+      <q-card style="width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">{{ tip.title }}</div>
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          {{ tip.text }}
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat :label="tip.btnText" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -51,7 +67,12 @@ export default {
         }
       ],
       inputIndex: 0
-      // lsit: []
+    })
+    const tip = reactive({
+      title: '提示',
+      text: '检测到有未填写项',
+      btnText: '好的',
+      show: false
     })
 
     if (root.$store.state.baseInfo.list[0]?.value) {
@@ -65,7 +86,10 @@ export default {
       })
     }
     const deleteFn = () => {
-      if (listObj.formlist.length < 2) {
+      if (
+        listObj.formlist.length < 2 ||
+        listObj.formlist[listObj.inputIndex].type === 'bought'
+      ) {
         return
       }
       listObj.formlist.splice(listObj.inputIndex, 1)
@@ -80,21 +104,29 @@ export default {
     }
 
     function toListFn () {
-      // listObj.list = copy(listObj.formlist)
-      // console.log('root.$store:>> ', root.$store)
-      root.$store.commit('setList', listObj.formlist)
-      root.$router.push('/page3')
+      const isNullArr = listObj.formlist.filter(item => !item.value)
+      if (isNullArr.length > 0) {
+        tip.show = true
+      } else {
+        root.$store.commit('setList', listObj.formlist)
+        root.$router.push('/page3')
+      }
     }
     function inputFocus (index) {
       listObj.inputIndex = index
     }
+    function inputBlur () {
+      listObj.inputIndex = 0
+    }
     return {
       listObj,
+      tip,
       addFn,
       deleteFn,
       restFn,
       toListFn,
-      inputFocus
+      inputFocus,
+      inputBlur
     }
   }
 }

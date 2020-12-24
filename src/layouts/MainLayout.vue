@@ -12,7 +12,7 @@
         /> -->
 
         <q-toolbar-title>
-          一个清单
+          易分清单
         </q-toolbar-title>
 
         <div>One_List v0.0.1</div>
