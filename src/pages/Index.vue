@@ -4,7 +4,8 @@
       <!-- <q-card-section class="fit flex flex-center">
         <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" />
       </q-card-section> -->
-      <q-card-section class="fit flex flex-center">
+      <q-card-section class="fit flex flex-center column">
+        <span class="text-h4">Hello World</span>
         <q-btn color="primary" label="开始使用 one list" @click="startFn" />
       </q-card-section>
     </q-card>

@@ -2,14 +2,22 @@
 <template>
   <div class="fit q-pa-md">
     <q-card class="fit column">
-      <!-- <q-card-section> -->
-      <q-btn-group spread push>
-        <q-btn color="secondary" @click="addFn">添加</q-btn>
-        <q-btn color="secondary" @click="deleteFn">删除</q-btn>
-        <q-btn color="secondary" @click="restFn">重置</q-btn>
-        <q-btn color="secondary" @click="toListFn">查看</q-btn>
-      </q-btn-group>
-      <!-- </q-card-section> -->
+      <q-card-section class="q-px-none row justify-around btn-box">
+        <!-- <q-btn-group> -->
+        <q-btn outline rounded color="secondary" @click="addFn">
+          添加
+        </q-btn>
+        <q-btn outline rounded color="secondary" @click="deleteFn">
+          删除
+        </q-btn>
+        <q-btn outline rounded color="secondary" @click="restFn">
+          重置
+        </q-btn>
+        <q-btn outline rounded color="secondary" @click="toListFn">
+          查看
+        </q-btn>
+        <!-- </q-btn-group> -->
+      </q-card-section>
       <q-card-section class="col overflow-auto scroll">
         <q-form>
           <q-input
@@ -92,4 +100,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-box button {
+  min-width: 70px;
+}
+</style>
