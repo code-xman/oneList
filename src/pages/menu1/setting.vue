@@ -40,13 +40,23 @@
             v-model="radioObj.yourself.name2"
           />
         </div>
+        <div class="row justify-end">
+          <q-btn
+            label="保存"
+            class="q-mt-md"
+            color="primary"
+            @click="saveSetting"
+          >
+          </q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script>
-import { reactive, watch } from '@vue/composition-api'
+import { reactive } from '@vue/composition-api'
+import { copy } from 'src/utils/index'
 export default {
   name: 'setting',
   setup (props, { root }) {
@@ -68,24 +78,43 @@ export default {
           color: 'cyan'
         }
       ],
-      littleName: 'shopping',
+      littleName: copy(root.$store.state.baseInfo.setting.littleName),
       yourself: {
-        name1: '',
-        name2: ''
+        name1: copy(root.$store.state.baseInfo.setting.smallTip.name1),
+        name2: copy(root.$store.state.baseInfo.setting.smallTip.name2)
       }
     })
 
     // const littleName = ref(null)
 
-    watch(
-      () => radioObj.littleName,
-      (val, prevVal) => {
-        console.log('val :>> ', val)
+    // watch(
+    //   () => radioObj.littleName,
+    //   (val, prevVal) => {
+    //     console.log('val :>> ', val)
+    //   }
+    // )
+
+    // 保存设置
+    function saveSetting () {
+      const checkedData = radioObj.radioList.find(item => item.val === radioObj.littleName)
+      let sendData = { name1: '', name2: '' }
+      if (checkedData.val === 'yourself') {
+        sendData = radioObj.yourself
+      } else {
+        sendData = {
+          name1: checkedData.label[0],
+          name2: checkedData.label[1]
+        }
       }
-    )
+      root.$store.commit('setSetting', {
+        littleName: radioObj.littleName,
+        smallTip: sendData
+      })
+    }
 
     return {
-      radioObj
+      radioObj,
+      saveSetting
     }
   }
 }

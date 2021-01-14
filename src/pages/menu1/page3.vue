@@ -67,7 +67,9 @@
             :color="item.type === 'bought' ? 'primary' : 'orange'"
             text-color="white"
           >
-            {{ item.type === 'bought' ? '已购' : '待购' }}
+            {{
+              item.type === 'bought' ? listObj.smallTip.name1 : listObj.smallTip.name2
+            }}
           </q-chip>
         </q-item>
         <!-- <q-separator spaced /> -->
@@ -84,8 +86,18 @@ export default {
   name: 'page3',
   setup (props, { root }) {
     const { offset } = dom
+    // ref fabRef
     const fabRef = ref(null)
-    const listObj = reactive({ list: [] })
+    // 清单数据
+    const listObj = reactive({
+      list: [],
+      // 小标签
+      smallTip: {
+        name1: root.$store.state.baseInfo.setting.smallTip.name1,
+        name2: root.$store.state.baseInfo.setting.smallTip.name2
+      }
+    })
+    // 可拖动按钮数据
     const fabObj = reactive({
       fabPos: [30, 30],
       draggingFab: false,
