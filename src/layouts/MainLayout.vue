@@ -111,6 +111,10 @@ export default {
       {
         label: '设置',
         route: '/setting'
+      },
+      {
+        label: '读取/保存文件',
+        route: '/saveReadFile'
       }
     ]
 

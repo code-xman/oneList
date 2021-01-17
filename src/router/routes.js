@@ -8,7 +8,8 @@ const routes = [
       { path: 'page1', component: () => import('pages/menu1/page1.vue') },
       { path: 'page2', component: () => import('pages/menu1/page2.vue') },
       { path: 'page3', component: () => import('pages/menu1/page3.vue') },
-      { path: 'setting', component: () => import('pages/menu1/setting.vue') }
+      { path: 'setting', component: () => import('pages/menu1/setting.vue') },
+      { path: 'saveReadFile', component: () => import('pages/menu1/saveReadFile.vue') }
     ]
   },
 

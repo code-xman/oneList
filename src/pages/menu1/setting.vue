@@ -110,6 +110,10 @@ export default {
         littleName: radioObj.littleName,
         smallTip: sendData
       })
+      radioObj.yourself = {
+        name1: copy(root.$store.state.baseInfo.setting.smallTip.name1),
+        name2: copy(root.$store.state.baseInfo.setting.smallTip.name2)
+      }
     }
 
     return {
