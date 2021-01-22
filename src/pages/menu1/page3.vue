@@ -68,7 +68,9 @@
             text-color="white"
           >
             {{
-              item.type === 'bought' ? listObj.smallTip.name1 : listObj.smallTip.name2
+              item.type === 'bought'
+                ? listObj.smallTip.name1
+                : listObj.smallTip.name2
             }}
           </q-chip>
         </q-item>

@@ -96,7 +96,9 @@ export default {
 
     // 保存设置
     function saveSetting () {
-      const checkedData = radioObj.radioList.find(item => item.val === radioObj.littleName)
+      const checkedData = radioObj.radioList.find(
+        item => item.val === radioObj.littleName
+      )
       let sendData = { name1: '', name2: '' }
       if (checkedData.val === 'yourself') {
         sendData = radioObj.yourself

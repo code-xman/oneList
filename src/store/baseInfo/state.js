@@ -12,6 +12,5 @@ export default function () {
         name2: '待购'
       }
     }
-
   }
 }

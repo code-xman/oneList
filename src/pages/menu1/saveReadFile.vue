@@ -3,18 +3,8 @@
   <div class="fit q-pa-md">
     <q-card class="fit column">
       <q-card-section class="col overflow-auto scroll">
-        <q-btn
-          label="保存文件"
-          class="q-mt-md"
-          @click="saveFile"
-        >
-        </q-btn>
-        <q-btn
-          label="读取文件"
-          class="q-mt-md"
-          @click="readFile"
-        >
-        </q-btn>
+        <q-btn label="保存文件" class="q-mt-md" @click="saveFile"> </q-btn>
+        <q-btn label="读取文件" class="q-mt-md" @click="readFile"> </q-btn>
       </q-card-section>
     </q-card>
   </div>
@@ -39,7 +29,9 @@ export default {
       DownloadDom.download = 'x001.json'
       if (DownloadDom) {
         // Blob对象
-        const myBlob = new Blob([JSON.stringify(fileText)], { type: 'application/json' })
+        const myBlob = new Blob([JSON.stringify(fileText)], {
+          type: 'application/json'
+        })
         DownloadDom.href = window.URL.createObjectURL(myBlob)
         console.log('下载文件已就绪')
         DownloadDom.click()
@@ -51,9 +43,7 @@ export default {
       const readFileDom = document.createElement('input')
       readFileDom.type = 'file'
       // 监听 文件change事件
-      readFileDom.addEventListener('change', event =>
-        this.changeFile(event)
-      )
+      readFileDom.addEventListener('change', event => this.changeFile(event))
       readFileDom.click()
     }
 
@@ -78,5 +68,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
