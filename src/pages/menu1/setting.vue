@@ -10,16 +10,17 @@
             :key="index"
             v-model="radioObj.littleName"
             :val="item.val"
-            :label="item.label[0]"
+            :label="item.label.name1"
             :color="item.color"
           />
           <q-input
             dense
             outlined
+            clearable
             class="q-pa-sm"
             placeholder="输入完成标签"
             :disable="radioObj.littleName !== 'yourself'"
-            v-model="radioObj.yourself.name1"
+            v-model="radioObj.smallTip.name1"
           />
         </div>
         <div class="q-gutter-sm">
@@ -28,16 +29,17 @@
             :key="index"
             v-model="radioObj.littleName"
             :val="item.val"
-            :label="item.label[1]"
+            :label="item.label.name2"
             :color="item.color"
           />
           <q-input
             dense
             outlined
+            clearable
             class="q-pa-sm"
             placeholder="输入未完成标签"
             :disable="radioObj.littleName !== 'yourself'"
-            v-model="radioObj.yourself.name2"
+            v-model="radioObj.smallTip.name2"
           />
         </div>
         <div class="row justify-end">
@@ -55,7 +57,7 @@
 </template>
 
 <script>
-import { reactive } from '@vue/composition-api'
+import { reactive, watch } from '@vue/composition-api'
 import { copy } from 'src/utils/index'
 export default {
   name: 'setting',
@@ -64,35 +66,51 @@ export default {
       radioList: [
         {
           val: 'shopping',
-          label: ['已购', '待购'],
+          label: {
+            name1: '已购',
+            name2: '待购'
+          },
           color: 'orange'
         },
         {
           val: 'doing',
-          label: ['已完成', '未完成'],
+          label: {
+            name1: '已完成',
+            name2: '未完成'
+          },
           color: 'red'
         },
         {
           val: 'yourself',
-          label: ['自定义', '自定义'],
+          label: {
+            name1: '自定义',
+            name2: '自定义'
+          },
           color: 'cyan'
         }
       ],
       littleName: copy(root.$store.state.baseInfo.setting.littleName),
-      yourself: {
-        name1: copy(root.$store.state.baseInfo.setting.smallTip.name1),
-        name2: copy(root.$store.state.baseInfo.setting.smallTip.name2)
-      }
+      smallTip: copy(root.$store.state.baseInfo.setting.smallTip)
     })
 
     // const littleName = ref(null)
 
-    // watch(
-    //   () => radioObj.littleName,
-    //   (val, prevVal) => {
-    //     console.log('val :>> ', val)
-    //   }
-    // )
+    watch(
+      () => radioObj.littleName,
+      (val, prevVal) => {
+        console.log('val :>> ', val)
+        if (val === 'yourself') {
+          radioObj.smallTip = {
+            name1: '',
+            name2: ''
+          }
+        } else {
+          radioObj.smallTip = radioObj.radioList.find(
+            item => item.val === val
+          ).label
+        }
+      }
+    )
 
     // 保存设置
     function saveSetting () {
@@ -101,21 +119,15 @@ export default {
       )
       let sendData = { name1: '', name2: '' }
       if (checkedData.val === 'yourself') {
-        sendData = radioObj.yourself
+        sendData = radioObj.smallTip
       } else {
-        sendData = {
-          name1: checkedData.label[0],
-          name2: checkedData.label[1]
-        }
+        sendData = checkedData.label
       }
       root.$store.commit('setSetting', {
         littleName: radioObj.littleName,
         smallTip: sendData
       })
-      radioObj.yourself = {
-        name1: copy(root.$store.state.baseInfo.setting.smallTip.name1),
-        name2: copy(root.$store.state.baseInfo.setting.smallTip.name2)
-      }
+      // radioObj.smallTip = copy(root.$store.state.baseInfo.setting.smallTip)
     }
 
     return {

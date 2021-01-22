@@ -3,6 +3,16 @@
   <div class="fit q-pa-md">
     <q-card class="fit column">
       <q-card-section class="col overflow-auto scroll">
+        <q-input
+          dense
+          outlined
+          clearable
+          class="q-pa-sm"
+          label="文件名称"
+          v-model="fileObj.name"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || '请输入名称']"
+        />
         <q-btn label="保存文件" class="q-mt-md" @click="saveFile"> </q-btn>
         <q-btn label="读取文件" class="q-mt-md" @click="readFile"> </q-btn>
       </q-card-section>
@@ -11,30 +21,31 @@
 </template>
 
 <script>
+import { reactive } from '@vue/composition-api'
 export default {
   name: 'saveReadFile',
   setup (props, { root }) {
+    const fileObj = reactive({
+      name: ''
+    })
     // 保存文件
     function saveFile () {
-      const DownloadDom = document.createElement('a')
-      // 文件内容
-      const fileText = {
-        littleName: root.$store.state.baseInfo.setting.littleName,
-        yourself: {
-          name1: root.$store.state.baseInfo.setting.smallTip.name1,
-          name2: root.$store.state.baseInfo.setting.smallTip.name2
-        }
+      if (!fileObj.name) {
+        return
       }
+      const downloadEle = document.createElement('a')
+      // 文件内容
+      const fileText = root.$store.state.baseInfo.setting
       // 文件名字
-      DownloadDom.download = 'x001.json'
-      if (DownloadDom) {
+      downloadEle.download = fileObj.name + '.json'
+      if (downloadEle) {
         // Blob对象
         const myBlob = new Blob([JSON.stringify(fileText)], {
           type: 'application/json'
         })
-        DownloadDom.href = window.URL.createObjectURL(myBlob)
+        downloadEle.href = window.URL.createObjectURL(myBlob)
         console.log('下载文件已就绪')
-        DownloadDom.click()
+        downloadEle.click()
       }
     }
 
@@ -60,6 +71,7 @@ export default {
     }
 
     return {
+      fileObj,
       saveFile,
       readFile,
       changeFile
