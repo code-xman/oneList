@@ -58,7 +58,7 @@
 
 <script>
 import { reactive, watch } from '@vue/composition-api'
-import { copy } from 'src/utils/index'
+import { copy, notify } from 'src/utils/index'
 export default {
   name: 'setting',
   setup (props, { root }) {
@@ -128,6 +128,10 @@ export default {
         smallTip: sendData
       })
       // radioObj.smallTip = copy(root.$store.state.baseInfo.setting.smallTip)
+      notify({
+        type: 'positive',
+        message: '保存成功'
+      })
     }
 
     return {

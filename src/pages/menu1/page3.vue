@@ -1,7 +1,15 @@
 <!-- Created by xj on 2020-11-30. page3 list -->
 <template>
-  <div class="fit q-pa-md">
-    <q-card class="fit q-pa-md column">
+  <div class="fit column">
+    <div class="row col-auto">
+      <div class="col q-pa-sm bg-indigo-5 text-white text-center">
+        {{ listObj.smallTip.name1 }}:{{ boughtArr.length }}
+      </div>
+      <div class="col q-pa-sm bg-secondary text-white text-center">
+        {{ listObj.smallTip.name2 }}:{{ waitBuyArr.length }}
+      </div>
+    </div>
+    <q-card class="col q-ma-md q-pa-sm column">
       <!-- position 原点位置，offset 距原点位置 [x，y] -->
       <q-page-sticky
         ref="fabRef"
@@ -55,8 +63,8 @@
           v-ripple
           v-for="(item, index) in listObj.list"
           :key="index"
-          class="aItem q-pa-sm overflow-hidden"
-          :class="item.type === 'waitBuy' ? 'waitBuyItem' : 'boughtItem'"
+          class="aItem q-pa-sm overflow-hidden text-white"
+          :class="item.type === 'waitBuy' ? 'bg-indigo-5' : 'bg-secondary'"
           @click="changeList(index)"
         >
           <q-item-section class="text-body1 itemText">
@@ -64,7 +72,7 @@
           </q-item-section>
           <q-chip
             size="sm"
-            :color="item.type === 'bought' ? 'primary' : 'orange'"
+            :color="item.type === 'bought' ? 'indigo' : 'secondary'"
             text-color="white"
           >
             {{
@@ -83,7 +91,7 @@
 <script>
 import { dom } from 'quasar'
 import { copy } from 'src/utils/index'
-import { reactive, ref } from '@vue/composition-api'
+import { computed, reactive, ref } from '@vue/composition-api'
 export default {
   name: 'page3',
   setup (props, { root }) {
@@ -118,6 +126,13 @@ export default {
       listObj.list = copy(root.$store.state.baseInfo.list)
     }
 
+    const boughtArr = computed(() =>
+      listObj.list.filter(item => item.type === 'bought')
+    )
+    const waitBuyArr = computed(() =>
+      listObj.list.filter(item => item.type === 'waitBuy')
+    )
+
     // 点击触发 改变状态
     function changeList (index) {
       const nowType =
@@ -127,8 +142,6 @@ export default {
 
     // 分类
     function classify () {
-      const boughtArr = listObj.list.filter(item => item.type === 'bought')
-      const waitBuyArr = listObj.list.filter(item => item.type === 'waitBuy')
       listObj.list = waitBuyArr.concat(boughtArr)
     }
 
@@ -182,6 +195,8 @@ export default {
     }
 
     return {
+      boughtArr,
+      waitBuyArr,
       fabRef,
       refList,
       listObj,
@@ -199,14 +214,6 @@ export default {
 <style lang="scss" scoped>
 .aItem {
   margin-bottom: 10px;
-}
-.waitBuyItem {
-  background: #4595e4;
-  color: #fff;
-}
-.boughtItem {
-  background: #009688;
-  color: #fff;
 }
 .itemText {
   // overflow-x: auto;

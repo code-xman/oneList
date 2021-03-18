@@ -78,8 +78,12 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       iconSet: 'material-icons', // Quasar icon set
-      lang: 'en-us', // Quasar language pack
-      config: {},
+      lang: 'zh-hans', // Quasar language pack
+      config: {
+        notify: {
+          position: 'top'
+        }
+      },
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
@@ -94,7 +98,7 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Notify']
     },
 
     // animations: 'all', // --- includes all animations

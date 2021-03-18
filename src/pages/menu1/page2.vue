@@ -30,7 +30,6 @@
             :disable="item.type === 'bought'"
             v-model="item.value"
             @focus="inputFocus(index)"
-            @blur="inputBlur()"
           >
           </q-input>
         </q-form>
@@ -93,6 +92,7 @@ export default {
         return
       }
       listObj.formlist.splice(listObj.inputIndex, 1)
+      listObj.inputIndex = 0
     }
     const restFn = () => {
       listObj.formlist = [
@@ -115,9 +115,6 @@ export default {
     function inputFocus (index) {
       listObj.inputIndex = index
     }
-    function inputBlur () {
-      listObj.inputIndex = 0
-    }
     return {
       listObj,
       tip,
@@ -125,8 +122,7 @@ export default {
       deleteFn,
       restFn,
       toListFn,
-      inputFocus,
-      inputBlur
+      inputFocus
     }
   }
 }
